@@ -43,20 +43,54 @@ precipitation_2018_2019 =
 
 ```
 
+## P2
+## First
+
+```{r}
+poly = 
+  read.csv("./fivethirtyeight_datasets./pols-month.csv") %>%
+  separate(mon, c("year", "month", "day")) %>%
+  mutate(month = month.name[as.numeric(month)]) %>%
+  janitor::clean_names() %>%
+  mutate(year = as.numeric(year)) %>%
+  pivot_longer(prez_gop:rep_dem, names_to = "president", values_to = "num") %>%
+  mutate(month = substring(month, 0, 3)) %>%
+  filter(president != "prez_dem" & president != "prez_gop") %>%
+  select(-"day")
+
+```
 
 
+## Second
+```{r}
+snp = 
+  read.csv("./fivethirtyeight_datasets./snp.csv") %>%
+  separate(date, c("year", "month", "day")) %>%
+  mutate(month = month.name[as.numeric(month)]) %>%
+  janitor::clean_names() %>%
+  select(year, month, everything()) %>%
+  select(-"day") %>%
+  mutate(month = substring(month, 0, 3)) %>%
+  mutate(year = as.numeric(year) + 2000)
+```
 
+## Third
+```{r}
+unemployment = 
+  read.csv("./fivethirtyeight_datasets./unemployment.csv") %>%
+  pivot_longer(Jan:Dec, names_to = "month", values_to = "num") %>%
+  janitor::clean_names() %>%
+  select(year, month, everything()) %>%
+  mutate(year = as.numeric(year))
+```
 
+## join
+```{r}
+merge_df = left_join(poly,snp, by = c("year", "month"))
+merge_df = left_join(merge_df,unemployment, by = c("year", "month"))
+  
 
-
-
-
-
-
-
-
-
-
+```
 
 
 
