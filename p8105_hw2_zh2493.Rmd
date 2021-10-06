@@ -6,7 +6,7 @@ output: github_document
 ```{r warning = FALSE}
 library(tidyverse)
 library(readxl)
-
+library(lubridate)
 ```
 
 ## P1
@@ -49,7 +49,7 @@ precipitation_2018_2019 =
 ```{r}
 poly = 
   read.csv("./fivethirtyeight_datasets./pols-month.csv") %>%
-  separate(mon, c("year", "month", "day")) %>%
+  separate(mon, into = c("year", "month", "day")) %>%
   mutate(month = month.name[as.numeric(month)]) %>%
   janitor::clean_names() %>%
   mutate(year = as.numeric(year)) %>%
@@ -65,13 +65,16 @@ poly =
 ```{r}
 snp = 
   read.csv("./fivethirtyeight_datasets./snp.csv") %>%
-  separate(date, c("year", "month", "day")) %>%
-  mutate(month = month.name[as.numeric(month)]) %>%
   janitor::clean_names() %>%
+  mutate(date,date = lubridate::mdy(date)) %>%
+  separate(date, into = c("year", "month", "day")) %>%
+  mutate(month = month.name[as.numeric(month)]) %>%
+  mutate(year = as.numeric(year)) %>%
+  mutate(year = ifelse(year>2049, year - 100, year)) %>%
   select(year, month, everything()) %>%
   select(-"day") %>%
-  mutate(month = substring(month, 0, 3)) %>%
-  mutate(year = as.numeric(year) + 2000)
+  mutate(month = substring(month, 0, 3))
+
 ```
 
 ## Third
@@ -91,7 +94,4 @@ merge_df = left_join(merge_df,unemployment, by = c("year", "month"))
   
 
 ```
-
-
-
 
