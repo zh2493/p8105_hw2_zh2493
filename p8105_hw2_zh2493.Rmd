@@ -17,24 +17,26 @@ Read and clean the Mr. Trash Wheel sheet:
 
 ```{r warning = FALSE}
 wheel_sheet = 
-  read_excel("./data./Trash-Wheel-Collection-Totals-8-6-19.xlsx", range = "A2:N408", sheet = "Mr. Trash Wheel") %>%
+  read_excel("./data./Trash-Wheel-Collection-Totals-7-2020-2.xlsx", range = "A2:N408", sheet = "Mr. Trash Wheel") %>%
   na.omit(dumpster) %>%
   janitor::clean_names() %>%
   mutate(sports_balls = round(as.numeric(sports_balls)))
+
+
 ```
 
 ### Read and clean precipitation data for 2018 and 2019
 
 ```{r warning = FALSE}
 precipitation2018 = 
-  read_excel("./data./Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = "2018 Precipitation", range = "A2:B14") %>%
+  read_excel("./data./Trash-Wheel-Collection-Totals-7-2020-2.xlsx", sheet = "2018 Precipitation", range = "A2:B14") %>%
   na.omit(wheel_sheet,  Precipitation) %>%
   janitor::clean_names() %>%
   mutate(year = "2018") %>%
   select(year, month, total)
   
 precipitation2019 = 
-  read_excel("./data./Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = "2019 Precipitation", range = "A2:B14") %>%
+  read_excel("./data./Trash-Wheel-Collection-Totals-7-2020-2.xlsx", sheet = "2019 Precipitation", range = "A2:B14") %>%
   na.omit(wheel_sheet,  Precipitation) %>%
   janitor::clean_names() %>%
   mutate(year = "2019") %>%

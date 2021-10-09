@@ -1,0 +1,31 @@
+---
+title: "Hw2_zh2493"
+author: "Ziqian"
+date: "10/7/2021"
+output: word_document
+---
+
+
+## Problem 1
+a
+```{r}
+dbinom(24, 40, 0.65)
+# the probability that exactly 24 of these individuals will have at least one dental checkup is 0.1031167
+```
+
+b
+```{r}
+1 - pbinom(23, 40, 0.65)
+# the probability that at least 24 of these individuals will have at least one dental checkup is 0.7977604
+```
+
+c
+```{r}
+n = 40
+p = 0.65
+mean = n * p
+sd = sqrt(n * p * (1 - p))
+dnorm(24, mean, sd)
+1 - pnorm(23.5, mean, sd)
+```
+
